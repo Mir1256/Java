@@ -2,6 +2,7 @@ package ru.lobankov.main;
 import ru.lobankov.animals.Bird;
 import ru.lobankov.animals.Meowable;
 import ru.lobankov.geometry.*;
+import ru.lobankov.geometry.Point;
 import ru.lobankov.buildings.House;
 import ru.lobankov.people.Name;
 import ru.lobankov.study.Student;
@@ -9,10 +10,17 @@ import ru.lobankov.time.Time;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.math.BigInteger;
+
+import static java.lang.Integer.parseInt;
+import static java.lang.Math.pow;
 
 public class Main {
     public static void main(String[] args){
-        demoName();
+        Point p1 = new Point(0,1);
+        java.awt.Point p2 = new java.awt.Point(1,0);
+        System.out.println(p1);
+        System.out.println(p2);
     }
 
     public static void demoPoint(){
@@ -21,8 +29,7 @@ public class Main {
         System.out.println(new Point(0, 0));
     }
 
-    public static void demoHuman(){
-    }
+    public static void demoHuman(){}
 
     public static void demoName(){
         System.out.println(new Name("Клеопатра"));
@@ -42,6 +49,15 @@ public class Main {
         System.out.println(new House(5));
         System.out.println(new House(23));
         System.out.println(new House(11));
+    }
+
+    public static void task_3_1_3(){
+        BigInteger bg = new BigInteger("12345678912345678912");
+        System.out.println(sum(7,113,3.21,bg));
+    }
+
+    public static double myPow(String x, String y){
+        return pow(parseInt(x),parseInt(y));
     }
 
     public static double sum(Number... nums){
