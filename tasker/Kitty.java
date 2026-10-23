@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 public class Kitty extends Cat{
     public Kitty(String name) {

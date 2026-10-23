@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 import javax.naming.Name;
 

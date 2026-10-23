@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 public final class Decimal extends Number{
     private final int numerator;

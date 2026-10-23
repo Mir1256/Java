@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 abstract class Bird {
     private final String song;

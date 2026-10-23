@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 public class Rectangle extends Figure{
     private int height;

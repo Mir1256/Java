@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 public class Triangle extends Figure{
     private int a,b,c;

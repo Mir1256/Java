@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 import java.util.Arrays;
 import java.util.List;

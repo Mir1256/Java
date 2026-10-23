@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 public class Cuckoo extends Bird{
     public Cuckoo() {

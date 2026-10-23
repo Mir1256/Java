@@ -1,5 +1,4 @@
-package Java.tasker;
-
+package tasker;
 
 public class Cat {
     public String name;

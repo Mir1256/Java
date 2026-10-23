@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 public class Time {
     private static final int skipDay = 86399;

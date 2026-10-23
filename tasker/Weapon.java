@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 abstract class Weapon{
     private int ammo;

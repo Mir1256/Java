@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 public class Parrot extends Bird{
     public Parrot(String song) {

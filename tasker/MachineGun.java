@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 public class MachineGun extends Gun{
     private final int rateOfFire;

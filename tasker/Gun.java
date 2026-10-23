@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 public class Gun extends Weapon{
     private final int maxBullet;

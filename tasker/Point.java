@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 public sealed class Point permits Point3D {
     private int x;

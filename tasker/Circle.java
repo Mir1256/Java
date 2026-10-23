@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 public class Circle extends Figure{
     private double radius;

@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 public abstract class Attribute {
     private String name;

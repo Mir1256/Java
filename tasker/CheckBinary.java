@@ -1,4 +1,4 @@
-package Java.tasker;
+package tasker;
 
 public class CheckBinary implements Checker {
     public static final CheckBinary INTSTANCE = new CheckBinary();

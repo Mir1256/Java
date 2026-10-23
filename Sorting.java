@@ -1,5 +1,3 @@
-package Java;
-
 public class Sorting {
     public static void quickSortBySum(int [][] array){
         int [] arraySums =new int [array.length];
