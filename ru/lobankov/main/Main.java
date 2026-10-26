@@ -1,6 +1,7 @@
 package ru.lobankov.main;
 import ru.lobankov.animals.Bird;
 import ru.lobankov.animals.Meowable;
+import ru.lobankov.exceptions.InvalidGradeException;
 import ru.lobankov.geometry.*;
 import ru.lobankov.geometry.Point;
 import ru.lobankov.buildings.House;
@@ -17,10 +18,18 @@ import static java.lang.Math.pow;
 
 public class Main {
     public static void main(String[] args){
-        Point p1 = new Point(0,1);
-        java.awt.Point p2 = new java.awt.Point(1,0);
-        System.out.println(p1);
-        System.out.println(p2);
+        try {
+            Student student = test3("pepe", 1, 2, 3, 4, 5, 6);
+            System.out.println(student);
+        }catch (InvalidGradeException e){
+            StackTraceElement[] stackTraceElements = e.getStackTrace();
+            if (stackTraceElements[0].getMethodName().equals("<init>")){
+                Student student = test3("pepe");
+                System.out.println(student);
+            }else {
+                System.out.println("Что-то пошло не так");
+            }
+        }
     }
 
     public static void demoPoint(){
@@ -107,7 +116,26 @@ public class Main {
         return res;
     }
 
-    public static void test(List<Student> students, int grade){
+    public static Student test3(String name, int... values){return null;}
+
+    public static void test2(int grade, Student... students) throws InvalidGradeException {
+
+        try {
+            for (Student student:students){
+                Student s1 = new Student(student);
+                s1.addGrade(grade);
+            }
+            Student s1 = new Student(students[0]);
+            s1.addGrade(grade);
+        } catch (InvalidGradeException e) {
+            return;
+        }
+        for (Student student:students){
+            student.addGrade(grade);
+        }
+    }
+
+    public static void test1(List<Student> students, int grade) throws InvalidGradeException {
         List<List<Integer>> allGrades = new ArrayList<>();
 
         for (Student student:students){

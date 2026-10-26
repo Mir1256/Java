@@ -2,7 +2,7 @@ package ru.lobankov.company;
 
 public class Employee {
     private String selfName;
-    private Department department;
+    Department department;
 
     public Employee(String selfName, Department department) {
         this.selfName = selfName == null ? "" : selfName;
@@ -40,15 +40,7 @@ public class Employee {
 
     public void setDepartment(Department department){
         Department newDepartment = department == null ? Department.UNASSIGNED : department;
-        if (this.department == newDepartment) {
-            return;
-        }
-        if (this.department.getHead() == this){
-            this.department.setHead(null);
-        }
-        this.department.removeEmployee(this);
-        this.department = newDepartment;
-        this.department.addEmployee(this);
+        Department.transfer(this,this.department,newDepartment);
     }
 
     @Override

@@ -39,7 +39,7 @@ public class Gun extends Weapon{
             throw new IllegalArgumentException("Count of bullets can not be negative");
         }
 
-        int res = super.ammo() + bullets;
+        int res = super.ammo + bullets;
 
         if (res < this.maxBullet){
             super.load(res);

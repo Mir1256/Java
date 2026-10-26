@@ -7,7 +7,7 @@ public class Department {
 
     private String name;
     private Employee head;
-    private List<Employee> team;
+    private final List<Employee> team;
     public static final Department UNASSIGNED = new Department();
 
     public Department(){
@@ -31,7 +31,7 @@ public class Department {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? "" : name;
     }
 
     public Employee getHead() {
@@ -42,8 +42,8 @@ public class Department {
         if (this == UNASSIGNED) {
             return;
         }
-        if (head != null && head.getDepartment() != this){
-            head.setDepartment(this);
+        if (head != null){
+            transfer(head, head.getDepartment(), this);
         }
         this.head = head;
     }
@@ -52,13 +52,26 @@ public class Department {
         return new ArrayList<>(team);
     }
 
-    public void addEmployee(Employee employee){
+    static void transfer(Employee employee, Department from, Department to){
+        if (from == to) return;
+        if (employee == null) {
+            throw new IllegalArgumentException("Null employee cant transfer");
+        }
+        from.removeEmployee(employee);
+        if (from.getHead() == employee){
+            from.head = null;
+        }
+        to.addEmployee(employee);
+        employee.department = to;
+    }
+
+    void addEmployee(Employee employee){
         if (employee != null) {
             this.team.add(employee);
         }
     }
 
-    public void removeEmployee(Employee employee){
+    void removeEmployee(Employee employee){
         if (employee != null) {
             this.team.remove(employee);
         }
