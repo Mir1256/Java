@@ -1,10 +1,14 @@
 package ru.lobankov.main;
 import ru.lobankov.animals.Bird;
 import ru.lobankov.animals.Meowable;
+import ru.lobankov.exceptions.AlreadyClosedException;
+import ru.lobankov.exceptions.ConnectionLostException;
 import ru.lobankov.exceptions.InvalidGradeException;
+import ru.lobankov.exceptions.NoNumbersInAllStringException;
 import ru.lobankov.geometry.*;
 import ru.lobankov.geometry.Point;
 import ru.lobankov.buildings.House;
+import ru.lobankov.net.*;
 import ru.lobankov.people.Name;
 import ru.lobankov.study.Student;
 import ru.lobankov.time.Time;
@@ -17,18 +21,86 @@ import static java.lang.Integer.parseInt;
 import static java.lang.Math.pow;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) throws InvalidGradeException {
+
+        testByStackTrace_4_2_4();
+
+//        try {
+//            Student student = test3("pepe", 1, 2, 3, 4, 5, 6);
+//            System.out.println(student);
+//        }catch (InvalidGradeException e){
+//            StackTraceElement[] stackTraceElements = e.getStackTrace();
+//            if (stackTraceElements[0].getMethodName().equals("<init>")){
+//                Student student = test3("pepe");
+//                System.out.println(student);
+//            }else {
+//                System.out.println("Что-то пошло не так");
+//            }
+//        }
+    }
+
+    public static void testByStackTrace_4_2_4(){
+        ExampleConnector connector = new ExampleConnector();
+        Connection conn = new Connection("ru.lobankov");
         try {
-            Student student = test3("pepe", 1, 2, 3, 4, 5, 6);
-            System.out.println(student);
-        }catch (InvalidGradeException e){
+            connector.makeConnect(conn);
+            System.out.println("Connection success!");
+        } catch (Exception e) {
             StackTraceElement[] stackTraceElements = e.getStackTrace();
-            if (stackTraceElements[0].getMethodName().equals("<init>")){
-                Student student = test3("pepe");
-                System.out.println(student);
-            }else {
-                System.out.println("Что-то пошло не так");
+            if (stackTraceElements[0].getMethodName().equals("nextString")) {
+                connector.unregister();
+                System.out.println("Exception in nextString");
             }
+            if (stackTraceElements[0].getMethodName().equals("register")){
+                System.out.println("Exception in register");
+            }
+
+        }
+    }
+    public static void testByExceptions_4_2_4(){
+        ExampleConnector connector = new ExampleConnector();
+        Connection conn = new Connection("ru.lobankov");
+        try {
+            connector.makeConnect(conn);
+            System.out.println("Connection success!");
+        }
+        catch (ConnectionLostException | AlreadyClosedException e){
+            connector.unregister();
+            System.out.println("Exception in nextString");
+        }catch (RuntimeException e) {
+            System.out.println("Exception in register");
+        }
+    }
+
+    public static double divByManyString(String... potentialNumbers){
+        double res = 0;
+        boolean haveFirst = false;
+        for (String potentialNumber: potentialNumbers){
+            try {   
+                int num = Integer.parseInt(potentialNumber);
+                if (!haveFirst){
+                    res = (double) num;
+                }else{
+                    res/=num;
+                }
+            } catch (NumberFormatException e) {
+                continue;
+            }
+        }
+        if (!haveFirst){
+            throw new NoNumbersInAllStringException();
+        }
+        return res;
+    }
+
+    public static void readData_4_2_1(){
+        try(Connection conn = new Connection("https://wwww.google.com")) {
+            for (int i = 0; i < 10; i++){
+                System.out.println(conn.nextString());
+            }
+        } catch (Exception e) {
+            System.out.println("Something wrong with connection");
+            throw new RuntimeException(e);
         }
     }
 
@@ -116,7 +188,7 @@ public class Main {
         return res;
     }
 
-    public static Student test3(String name, int... values){return null;}
+    public static Student test3(String name, int... values) throws InvalidGradeException {return new Student(name, values);}
 
     public static void test2(int grade, Student... students) throws InvalidGradeException {
 

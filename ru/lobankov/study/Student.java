@@ -21,14 +21,20 @@ public class Student {
         this.checker = checker == null? CheckAllTrue.INTSTANCE: checker;
         setGrades(grades);
     }
+
+    public Student(String selfName, int... grades) throws InvalidGradeException {
+        this(selfName, null, grades);
+    }
+
     public Student(Student student){
         this.selfName = student.selfName;
         this.checker = student.checker;
         this.grades = student.grades;
     }
 
-    public Student(String name) throws IllegalAccessException {
-        throw new IllegalAccessException();
+    public Student(String name){
+        this.selfName = name==null ? "" : name;
+        this.checker = CheckAllTrue.INTSTANCE;
     }
 
     public String getSelfName() {
@@ -46,7 +52,7 @@ public class Student {
     public void setGrades(List<Integer> grades) throws InvalidGradeException {
         for (Integer grade: grades){
             if (!checker.isCorrect(grade)) {
-                throw new InvalidGradeException(grade);
+                throw new InvalidGradeException(selfName, grade);
             }
         }
         this.grades = new ArrayList<>(grades);
@@ -55,7 +61,7 @@ public class Student {
     public void setGrades(int... grades) throws InvalidGradeException {
         for (int grade: grades){
             if (!checker.isCorrect(grade)) {
-                throw new InvalidGradeException(grade);
+                throw new InvalidGradeException(selfName, grade);
             }
         }
 
@@ -68,7 +74,7 @@ public class Student {
 
     public void addGrade(int grade) throws InvalidGradeException {
         if (!checker.isCorrect(grade)) {
-            throw new InvalidGradeException(grade);
+            throw new InvalidGradeException(selfName, grade);
         }
         this.grades.add(grade);
     }
