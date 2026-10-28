@@ -1,8 +1,12 @@
 package ru.lobankov.geometry;
 
-public class DirectLine implements Lengthable {
-    private final Point startPoint;
-    private final Point endPoint;
+import ru.lobankov.numbers.Fraction;
+
+import java.util.Objects;
+
+public class DirectLine implements Lengthable, Cloneable{
+    private Point startPoint;
+    private Point endPoint;
 
 
     public DirectLine(DirectLine line){
@@ -66,6 +70,35 @@ public class DirectLine implements Lengthable {
                         Math.pow((double)startPoint.getY() - (double) endPoint.getY(),2.0))
                     )
         );
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (obj instanceof DirectLine ob){
+            return ob.startPoint.equals(this.startPoint) && ob.endPoint.equals(this.endPoint)
+                    || ob.startPoint.equals(this.endPoint) && ob.endPoint.equals(this.startPoint);
+        }
+        return false;
+    }
+
+    @Override
+    public DirectLine clone(){
+        try {
+            DirectLine copyLine = (DirectLine) super.clone();
+            copyLine.startPoint = this.startPoint.clone();
+            copyLine.endPoint = this.endPoint.clone();
+            return copyLine;
+        } catch (CloneNotSupportedException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        Integer h1 = this.startPoint.hashCode(), h2 = this.endPoint.hashCode();
+        return 31 * (h1 + h2) + (h1 * h2);
     }
 
     @Override

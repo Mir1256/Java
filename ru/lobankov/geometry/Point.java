@@ -1,6 +1,8 @@
 package ru.lobankov.geometry;
 
-public sealed class Point permits Point3D {
+import ru.lobankov.numbers.Fraction;
+
+public sealed class Point implements Cloneable permits Point3D {
     private int x;
     private int y;
 
@@ -45,6 +47,30 @@ public sealed class Point permits Point3D {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (obj instanceof Point ob){
+            return ob.x == this.x && ob.y == this.y;
+        }
+        return false;
+    }
+
+    @Override
+    public Point clone(){
+        try {
+            return (Point) super.clone();
+        }catch (CloneNotSupportedException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return 31*Integer.hashCode(x) + Integer.hashCode(y);
     }
 
     @Override

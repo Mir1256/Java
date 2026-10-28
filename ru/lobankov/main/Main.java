@@ -22,21 +22,13 @@ import static java.lang.Math.pow;
 
 public class Main {
     public static void main(String[] args) throws InvalidGradeException {
+        DirectLine line1 = new DirectLine(1,2,3,4);
+        DirectLine line2 = new DirectLine(1,2,3,4);
+        DirectLine line3 = new DirectLine(3,4,1,2);
 
-        testByStackTrace_4_2_4();
-
-//        try {
-//            Student student = test3("pepe", 1, 2, 3, 4, 5, 6);
-//            System.out.println(student);
-//        }catch (InvalidGradeException e){
-//            StackTraceElement[] stackTraceElements = e.getStackTrace();
-//            if (stackTraceElements[0].getMethodName().equals("<init>")){
-//                Student student = test3("pepe");
-//                System.out.println(student);
-//            }else {
-//                System.out.println("Что-то пошло не так");
-//            }
-//        }
+        System.out.println(line1.equals(line2));
+        System.out.println(line1.equals(line3));
+        System.out.println(line1.hashCode() == line3.hashCode());
     }
 
     public static void testByStackTrace_4_2_4(){
