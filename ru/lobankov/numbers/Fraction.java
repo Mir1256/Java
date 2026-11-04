@@ -1,6 +1,10 @@
 package ru.lobankov.numbers;
 
-public final class Fraction extends Number{
+import ru.lobankov.geometry.Point;
+
+import java.util.Objects;
+
+public final class Fraction extends Number implements Cloneable{
     private final int numerator;
     private final int denominator;
 
@@ -77,6 +81,30 @@ public final class Fraction extends Number{
 
     @Override public int intValue() {
         return numerator / denominator;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (obj instanceof Fraction ob){
+            return ob.denominator == this.denominator && ob.numerator == this.numerator;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 31*Integer.hashCode(numerator) + Integer.hashCode(denominator);
+    }
+
+    @Override
+    public Fraction clone(){
+        try {
+            return (Fraction) super.clone();
+        }catch (CloneNotSupportedException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
