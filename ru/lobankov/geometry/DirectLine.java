@@ -1,8 +1,8 @@
 package ru.lobankov.geometry;
 
-public class DirectLine<T extends Point> implements Lengthable {
-    private Point startPoint;
-    private Point endPoint;
+public class DirectLine<T extends Point> implements Lengthable, Cloneable {
+    private T startPoint;
+    private T endPoint;
 
 
     public DirectLine(DirectLine<T> line){
@@ -12,17 +12,16 @@ public class DirectLine<T extends Point> implements Lengthable {
         this(line.startPoint,line.endPoint);
     }
 
-    public DirectLine(Point startPoint, Point endPoint) {
+    public DirectLine(T startPoint, T endPoint) {
         if (startPoint == null || endPoint == null) {
             throw new IllegalArgumentException("Points must not be null");
         }
-        this.startPoint = new Point(startPoint);
-        this.endPoint = new Point(endPoint);
+        this.startPoint = copy(startPoint);
+        this.endPoint = copy(endPoint);
     }
 
-    public DirectLine(int x1, int y1, int x2, int y2) {
-        this.startPoint = new Point(x1,y1);
-        this.endPoint = new Point(x2,y2);
+    public static DirectLine<Point> of(int x1, int y1, int x2, int y2) {
+        return new DirectLine<>(new Point(x1, y1), new Point(x2, y2));
     }
 
     public Point getStartPoint() {
@@ -37,7 +36,7 @@ public class DirectLine<T extends Point> implements Lengthable {
         if (startPoint == null) {
             throw new IllegalArgumentException("New point must not be null");
         }
-        this.startPoint.co
+        this.startPoint = copy(startPoint);
     }
 
     public void setStartPoint(int x, int y) {
@@ -45,12 +44,11 @@ public class DirectLine<T extends Point> implements Lengthable {
         this.startPoint.setY(y);
     }
 
-    public void setEndPoint(Point endPoint) {
+    public void setEndPoint(T endPoint) {
         if (endPoint == null) {
             throw new IllegalArgumentException("New point must not be null");
         }
-        this.endPoint.setX(endPoint.getX());
-        this.endPoint.setY(endPoint.getY());
+        this.endPoint = copy(endPoint);
     }
 
     public void setEndPoint(int x, int y) {
@@ -67,11 +65,15 @@ public class DirectLine<T extends Point> implements Lengthable {
         );
     }
 
+    private T copy(T point){
+        return (T) point.clone();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null) return false;
-        if (obj instanceof DirectLine ob){
+        if (obj instanceof DirectLine<? extends Point> ob){
             return ob.startPoint.equals(this.startPoint) && ob.endPoint.equals(this.endPoint)
                     || ob.startPoint.equals(this.endPoint) && ob.endPoint.equals(this.startPoint);
         }
@@ -79,11 +81,11 @@ public class DirectLine<T extends Point> implements Lengthable {
     }
 
     @Override
-    public DirectLine clone(){
+    public DirectLine<T> clone(){
         try {
-            DirectLine copyLine = (DirectLine) super.clone();
-            copyLine.startPoint = this.startPoint.clone();
-            copyLine.endPoint = this.endPoint.clone();
+            DirectLine<T> copyLine = (DirectLine<T>) super.clone();
+            copyLine.startPoint = copy(startPoint);
+            copyLine.endPoint = copy(endPoint);
             return copyLine;
         } catch (CloneNotSupportedException e){
             throw new RuntimeException(e);
@@ -98,6 +100,6 @@ public class DirectLine<T extends Point> implements Lengthable {
 
     @Override
     public String toString() {
-        return "Линия от {" + startPoint.getX() + ";" + startPoint.getY() + "} до {" + endPoint.getX() + ";" + endPoint.getY() + "}" ;
+        return "Линия от {" + startPoint + "} до {" + endPoint + "}" ;
     }
 }
