@@ -1,11 +1,11 @@
 package ru.lobankov.geometry;
 
-public class DirectLine implements Lengthable {
+public class DirectLine<T extends Point> implements Lengthable {
     private final Point startPoint;
     private final Point endPoint;
 
 
-    public DirectLine(DirectLine line){
+    public DirectLine(DirectLine<T> line){
         if (line == null) {
             throw new IllegalArgumentException("New line must not be null");
         }
@@ -33,12 +33,11 @@ public class DirectLine implements Lengthable {
         return endPoint;
     }
 
-    public void setStartPoint(Point startPoint) {
+    public void setStartPoint(T startPoint) {
         if (startPoint == null) {
             throw new IllegalArgumentException("New point must not be null");
         }
-        this.startPoint.setX(startPoint.getX());
-        this.startPoint.setY(startPoint.getY());
+        this.startPoint.co
     }
 
     public void setStartPoint(int x, int y) {

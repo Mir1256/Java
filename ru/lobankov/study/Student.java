@@ -2,6 +2,7 @@ package ru.lobankov.study;
 
 import ru.lobankov.checkers.CheckAllTrue;
 import ru.lobankov.checkers.Checker;
+import ru.lobankov.containers.Comparable;
 import ru.lobankov.exceptions.InvalidGradeException;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.Objects;
 
 import static java.util.Collections.sort;
 
-public class Student {
+public class Student implements Comparable<Student> {
     private String selfName;
     private List<Integer> grades;
     private final Checker checker;
@@ -129,5 +130,15 @@ public class Student {
         }
         fullGrades += (Integer.toString(grades.getLast()) + "]");
         return fullGrades;
+    }
+
+    @Override
+    public int compareTo(Student object) {
+        if (object == null) throw new NullPointerException();
+        return Integer.signum(
+                Double.compare(
+                        this.getAverage(), object.getAverage()
+                )
+        );
     }
 }

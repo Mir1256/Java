@@ -10,6 +10,7 @@ import ru.lobankov.geometry.Point;
 import ru.lobankov.buildings.House;
 import ru.lobankov.net.*;
 import ru.lobankov.people.Name;
+import ru.lobankov.containers.GeneralizedBox;
 import ru.lobankov.study.Student;
 import ru.lobankov.time.Time;
 
@@ -23,20 +24,14 @@ import static java.lang.Math.pow;
 public class Main {
     public static void main(String[] args) throws InvalidGradeException {
 
-        testByStackTrace_4_2_4();
+        GeneralizedBox<Integer> box = new GeneralizedBox<>(5);
+        System.out.println(boxIsEmpty(box));
+        System.out.println(box.getObject());
+        System.out.println(box);
+    }
 
-//        try {
-//            Student student = test3("pepe", 1, 2, 3, 4, 5, 6);
-//            System.out.println(student);
-//        }catch (InvalidGradeException e){
-//            StackTraceElement[] stackTraceElements = e.getStackTrace();
-//            if (stackTraceElements[0].getMethodName().equals("<init>")){
-//                Student student = test3("pepe");
-//                System.out.println(student);
-//            }else {
-//                System.out.println("Что-то пошло не так");
-//            }
-//        }
+    public static <T> boolean boxIsEmpty(GeneralizedBox<T> box){
+        return box.isEmpty();
     }
 
     public static void testByStackTrace_4_2_4(){
