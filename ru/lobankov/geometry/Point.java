@@ -19,18 +19,18 @@ public sealed class Point implements Cloneable permits Point3D {
         this.y = point.getY();
     }
 
-    public static double distPoint2D(Point p1, Point p2){
-        if (p1 == null || p2 == null) {
+    public double distPoint2D(Point p){
+        if (p == null) {
             throw new IllegalArgumentException("Point must not be null");
         }
         return Math.sqrt(
-                (Math.pow((double)p1.getX() - (double) p2.getX(), 2.0) +
-                        Math.pow((double)p1.getY() - (double) p2.getY(),2.0))
+                (Math.pow((double)this.getX() - (double) p.getX(), 2.0) +
+                        Math.pow((double)this.getY() - (double) p.getY(),2.0))
         );
     }
 
-    public double dist(Point p1, Point p2){
-        return distPoint2D(p1,p2);
+    public double dist(Point p){
+        return this.distPoint2D(p);
     }
 
     public int getX() {

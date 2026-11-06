@@ -24,10 +24,12 @@ import static java.lang.Math.pow;
 public class Main {
     public static void main(String[] args) throws InvalidGradeException {
 
-        GeneralizedBox<Integer> box = new GeneralizedBox<>(5);
-        System.out.println(boxIsEmpty(box));
-        System.out.println(box.getObject());
-        System.out.println(box);
+        List<Point> test = new ArrayList<>();
+        test(test);
+    }
+
+    public static <T> void test(List<T> points){
+        System.out.println(points.getClass());
     }
 
     public static <T> boolean boxIsEmpty(GeneralizedBox<T> box){

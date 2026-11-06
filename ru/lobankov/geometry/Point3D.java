@@ -20,10 +20,10 @@ public final class Point3D extends Point{
         this.z = z;
     }
 
-    public static double dist(Point3D p1, Point3D p2) {
-        double dx = p1.getX() - p2.getX();
-        double dy = p1.getY() - p2.getY();
-        double dz = p1.getZ() - p2.getZ();
+    public double dist(Point3D p) {
+        double dx = this.getX() - p.getX();
+        double dy = this.getY() - p.getY();
+        double dz = this.getZ() - p.getZ();
 
         return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }

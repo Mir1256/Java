@@ -4,7 +4,6 @@ public class DirectLine<T extends Point> implements Lengthable, Cloneable {
     private T startPoint;
     private T endPoint;
 
-
     public DirectLine(DirectLine<T> line){
         if (line == null) {
             throw new IllegalArgumentException("New line must not be null");
@@ -12,16 +11,25 @@ public class DirectLine<T extends Point> implements Lengthable, Cloneable {
         this(line.startPoint,line.endPoint);
     }
 
-    public DirectLine(T startPoint, T endPoint) {
+    private DirectLine(T startPoint, T endPoint) {
         if (startPoint == null || endPoint == null) {
             throw new IllegalArgumentException("Points must not be null");
         }
-        this.startPoint = copy(startPoint);
-        this.endPoint = copy(endPoint);
+        if (startPoint.getClass() != endPoint.getClass()){
+            this.startPoint = (T) new Point(startPoint.getX(), startPoint.getY());
+            this.endPoint = (T) new Point(endPoint.getX(), endPoint.getY());
+        } else{
+            this.startPoint = (T) startPoint.clone();
+            this.endPoint = (T) endPoint.clone();
+        }
     }
 
     public static DirectLine<Point> of(int x1, int y1, int x2, int y2) {
         return new DirectLine<>(new Point(x1, y1), new Point(x2, y2));
+    }
+
+    public static DirectLine<Point3D> of(int x1, int y1, int z1, int x2, int y2, int z2) {
+        return new DirectLine<>(new Point3D(x1, y1, z1), new Point3D(x2, y2, z2));
     }
 
     public Point getStartPoint() {
@@ -36,37 +44,28 @@ public class DirectLine<T extends Point> implements Lengthable, Cloneable {
         if (startPoint == null) {
             throw new IllegalArgumentException("New point must not be null");
         }
-        this.startPoint = copy(startPoint);
-    }
 
-    public void setStartPoint(int x, int y) {
-        this.startPoint.setX(x);
-        this.startPoint.setY(y);
+        if (this.startPoint.getClass() != startPoint.getClass()){
+            this.startPoint = (T) new Point(startPoint.getX(), startPoint.getY());
+        }else {
+            this.startPoint = (T) startPoint.clone();
+        }
     }
 
     public void setEndPoint(T endPoint) {
         if (endPoint == null) {
             throw new IllegalArgumentException("New point must not be null");
         }
-        this.endPoint = copy(endPoint);
-    }
 
-    public void setEndPoint(int x, int y) {
-        this.endPoint.setX(x);
-        this.endPoint.setY(y);
+        if (this.endPoint.getClass() != endPoint.getClass()){
+            this.endPoint = (T) new Point(endPoint.getX(), endPoint.getY());
+        }else {
+            this.endPoint = (T) endPoint.clone();
+        }
     }
 
     public double length(){
-        return Math.rint(
-                    Math.sqrt(
-                        (Math.pow((double)startPoint.getX() - (double) endPoint.getX(), 2.0) +
-                        Math.pow((double)startPoint.getY() - (double) endPoint.getY(),2.0))
-                    )
-        );
-    }
-
-    private T copy(T point){
-        return (T) point.clone();
+        return startPoint.dist(endPoint);
     }
 
     @Override
@@ -84,8 +83,8 @@ public class DirectLine<T extends Point> implements Lengthable, Cloneable {
     public DirectLine<T> clone(){
         try {
             DirectLine<T> copyLine = (DirectLine<T>) super.clone();
-            copyLine.startPoint = copy(startPoint);
-            copyLine.endPoint = copy(endPoint);
+            copyLine.startPoint = (T) startPoint.clone();
+            copyLine.endPoint = (T) endPoint.clone();
             return copyLine;
         } catch (CloneNotSupportedException e){
             throw new RuntimeException(e);
