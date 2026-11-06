@@ -1,42 +1,57 @@
 package ru.lobankov.geometry;
 
-public class DirectLine<T extends Point> implements Lengthable, Cloneable {
+public class Line<T extends Point> implements Lengthable, Cloneable {
     private T startPoint;
     private T endPoint;
 
-    public DirectLine(DirectLine<T> line){
+    public Line(Line<T> line){
         if (line == null) {
             throw new IllegalArgumentException("New line must not be null");
         }
         this(line.startPoint,line.endPoint);
     }
 
-    private DirectLine(T startPoint, T endPoint) {
+    private Line(T startPoint, T endPoint) {
         if (startPoint == null || endPoint == null) {
             throw new IllegalArgumentException("Points must not be null");
         }
+        unifyPoints(startPoint, endPoint);
+    }
+
+    public static Line<Point> of(int x1, int y1, int x2, int y2) {
+        return new Line<>(new Point(x1, y1), new Point(x2, y2));
+    }
+
+    public static Line<Point3D> of(int x1, int y1, int z1, int x2, int y2, int z2) {
+        return new Line<>(new Point3D(x1, y1, z1), new Point3D(x2, y2, z2));
+    }
+
+    private void unifyPoints(T startPoint, T endPoint){
         if (startPoint.getClass() != endPoint.getClass()){
-            this.startPoint = (T) new Point(startPoint.getX(), startPoint.getY());
-            this.endPoint = (T) new Point(endPoint.getX(), endPoint.getY());
+            this.startPoint = downgradeTo2D(startPoint);
+            this.endPoint = downgradeTo2D(endPoint);
         } else{
             this.startPoint = (T) startPoint.clone();
             this.endPoint = (T) endPoint.clone();
         }
     }
 
-    public static DirectLine<Point> of(int x1, int y1, int x2, int y2) {
-        return new DirectLine<>(new Point(x1, y1), new Point(x2, y2));
+    private T downgradeTo2D(T point){
+        return (T) new Point(point.getX(), point.getY());
     }
 
-    public static DirectLine<Point3D> of(int x1, int y1, int z1, int x2, int y2, int z2) {
-        return new DirectLine<>(new Point3D(x1, y1, z1), new Point3D(x2, y2, z2));
+    private T upgradeTo3D(T point){
+        if (point.getClass() == Point3D.class){
+            return (T) point.clone();
+        }
+        return (T) new Point3D(point.getX(), point.getY(), 0);
     }
 
-    public Point getStartPoint() {
+    public T getStartPoint() {
         return startPoint;
     }
 
-    public Point getEndPoint() {
+    public T getEndPoint() {
         return endPoint;
     }
 
@@ -45,11 +60,7 @@ public class DirectLine<T extends Point> implements Lengthable, Cloneable {
             throw new IllegalArgumentException("New point must not be null");
         }
 
-        if (this.startPoint.getClass() != startPoint.getClass()){
-            this.startPoint = (T) new Point(startPoint.getX(), startPoint.getY());
-        }else {
-            this.startPoint = (T) startPoint.clone();
-        }
+        unifyPoints(startPoint, this.endPoint);
     }
 
     public void setEndPoint(T endPoint) {
@@ -57,11 +68,7 @@ public class DirectLine<T extends Point> implements Lengthable, Cloneable {
             throw new IllegalArgumentException("New point must not be null");
         }
 
-        if (this.endPoint.getClass() != endPoint.getClass()){
-            this.endPoint = (T) new Point(endPoint.getX(), endPoint.getY());
-        }else {
-            this.endPoint = (T) endPoint.clone();
-        }
+        unifyPoints(this.startPoint, endPoint);
     }
 
     public double length(){
@@ -72,7 +79,7 @@ public class DirectLine<T extends Point> implements Lengthable, Cloneable {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null) return false;
-        if (obj instanceof DirectLine<? extends Point> ob){
+        if (obj instanceof Line<? extends Point> ob){
             return ob.startPoint.equals(this.startPoint) && ob.endPoint.equals(this.endPoint)
                     || ob.startPoint.equals(this.endPoint) && ob.endPoint.equals(this.startPoint);
         }
@@ -80,9 +87,9 @@ public class DirectLine<T extends Point> implements Lengthable, Cloneable {
     }
 
     @Override
-    public DirectLine<T> clone(){
+    public Line<T> clone(){
         try {
-            DirectLine<T> copyLine = (DirectLine<T>) super.clone();
+            Line<T> copyLine = (Line<T>) super.clone();
             copyLine.startPoint = (T) startPoint.clone();
             copyLine.endPoint = (T) endPoint.clone();
             return copyLine;
@@ -99,6 +106,6 @@ public class DirectLine<T extends Point> implements Lengthable, Cloneable {
 
     @Override
     public String toString() {
-        return "Линия от {" + startPoint + "} до {" + endPoint + "}" ;
+        return "Линия от " + startPoint + " до " + endPoint;
     }
 }

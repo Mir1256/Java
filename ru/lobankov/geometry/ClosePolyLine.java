@@ -1,8 +1,10 @@
 package ru.lobankov.geometry;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ClosePolyLine<T extends Point> extends PolygonalLine<T> implements Lengthable {
+public class ClosePolyLine<T extends Point> extends PolyLine<T> {
+    @SafeVarargs
     public ClosePolyLine(T... points) {
         super(points);
     }
@@ -11,15 +13,19 @@ public class ClosePolyLine<T extends Point> extends PolygonalLine<T> implements 
         super(points);
     }
 
-    public ClosePolyLine(PolygonalLine<T> line) {
+    public ClosePolyLine(PolyLine<T> line) {
         super(line);
     }
 
+    // Замкнутая линия после последней точки возвращается в первую.
     @Override
-    public double length() {
-        if (normalizInator().size() > 2) {
-            return super.length() + this.getPoints().getLast().dist(this.getPoints().getFirst());
+    protected List<T> path() {
+        List<T> points = getPoints();
+        if (points.size() < 2) {
+            return points;
         }
-        return super.length();
+        List<T> path = new ArrayList<>(points);
+        path.add(points.getFirst());
+        return path;
     }
 }

@@ -1,7 +1,5 @@
 package ru.lobankov.geometry;
 
-import ru.lobankov.numbers.Fraction;
-
 public sealed class Point implements Cloneable permits Point3D {
     private int x;
     private int y;
@@ -19,7 +17,7 @@ public sealed class Point implements Cloneable permits Point3D {
         this.y = point.getY();
     }
 
-    public double distPoint2D(Point p){
+    public double dist(Point p){
         if (p == null) {
             throw new IllegalArgumentException("Point must not be null");
         }
@@ -27,10 +25,6 @@ public sealed class Point implements Cloneable permits Point3D {
                 (Math.pow((double)this.getX() - (double) p.getX(), 2.0) +
                         Math.pow((double)this.getY() - (double) p.getY(),2.0))
         );
-    }
-
-    public double dist(Point p){
-        return this.distPoint2D(p);
     }
 
     public int getX() {
@@ -53,7 +47,8 @@ public sealed class Point implements Cloneable permits Point3D {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null) return false;
-        if (obj instanceof Point ob){
+        if (obj.getClass() == getClass()){
+            Point ob = (Point) obj;
             return ob.x == this.x && ob.y == this.y;
         }
         return false;

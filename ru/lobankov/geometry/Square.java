@@ -34,7 +34,7 @@ public class Square implements PolyLineable {
         this.lenghtSide = Math.max(lenghtSide, 0);
     }
 
-    public PolygonalLine getPolyline(){
+    public PolyLine getPolyline(){
         Point[] points = {leftUpPoint, new Point(leftUpPoint.getX(),leftUpPoint.getY()+lenghtSide),
                 new Point(leftUpPoint.getX()+lenghtSide, leftUpPoint.getY() + lenghtSide),
                 new Point(leftUpPoint.getX(), leftUpPoint.getY()+lenghtSide)

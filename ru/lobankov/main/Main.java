@@ -174,8 +174,8 @@ public class Main {
         return sum;
     }
 
-    public static PolygonalLine createPolyChain(PolyLineable... polylines){
-        PolygonalLine res = new PolygonalLine(polylines[0].getPolyline());
+    public static PolyLine createPolyChain(PolyLineable... polylines){
+        PolyLine res = new PolyLine(polylines[0].getPolyline());
         for (PolyLineable polyline : polylines) {
             List<Point> points = polyline.getPolyline().getPoints();
             for (Point point : points) {
