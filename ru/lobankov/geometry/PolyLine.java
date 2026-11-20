@@ -5,12 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PolyLine<T extends Point> implements Lengthable, PolyLineable, Cloneable {
-    private List<T> points;
+    protected List<T> points;
 
     @SafeVarargs
-    public PolyLine(T... points){
-        this((Arrays.asList(points)));
-    }
+    public PolyLine(T... points){this(List.of(points));}
 
     public PolyLine(List<T> points){
         this.points = new ArrayList<>();
@@ -33,22 +31,23 @@ public class PolyLine<T extends Point> implements Lengthable, PolyLineable, Clon
     }
 
     public List<T> getPoints() {
-        return points;
+        return new ArrayList<>(this.points);
     }
 
-    public void setPoints(List<T> points) {
-        this.points.addAll(points);
-    }
+    public void setPoints(List<T> points) {addAllPoint(points);}
 
     public void addAllPoint(List<T> points){
         List<T> res = new ArrayList<>();
         T cmpPoint = points.getFirst();
-        for (int i = 0; i < points.size(); i++) {
-            if (cmpPoint.getClass() != points.get(i).getClass()){
-                T updatePoint = downgradeTo2D(points.get(i));
-                points.set(i, updatePoint);
+        for (T point : points) {
+            if (cmpPoint.getClass() != point.getClass()) {
+                for (T point1 : points){
+                    res.add(downgradeTo2D(point1));
+                }
+                break;
             }
         }
+        this.points = res.isEmpty() ? new ArrayList<>(points): res;
     }
 
     public void addPoint(T point){
@@ -63,7 +62,7 @@ public class PolyLine<T extends Point> implements Lengthable, PolyLineable, Clon
         List<T> result = new ArrayList<>();
         for (T p : path()) {
             if (result.size() >= 2 && isStraight(result.get(result.size() - 2), result.getLast(), p)) {
-                result.removeLast();   // предыдущая точка лишняя — линия идёт прямо через неё
+                result.removeLast();
             }
             result.add(p);
         }
